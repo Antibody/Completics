@@ -1,14 +1,13 @@
 // app/api/tasks/[taskId]/tags/route.ts
-
 import { NextResponse, type NextRequest } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { taskId: string } }
+  { params }: { params: Promise<{ taskId: string }> }
 ) {
-  const { taskId } = params;
+  const { taskId } = await params;
   const { tag_id } = await request.json();
 
   if (!taskId || !tag_id) {
