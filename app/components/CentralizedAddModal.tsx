@@ -1,7 +1,7 @@
 // app/components/CentralizedAddModal.tsx
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import AddTaskForm from './AddTaskForm';
 import { StageData, ProjectForSelect, VerForSelect } from '../components/KanbanBoard';
 
@@ -46,40 +46,34 @@ const CentralizedAddModal: React.FC<CentralizedAddModalProps> = ({
   const [selectedTagIds, setSelectedTagIds] = useState<Set<string>>(new Set());
   const [tagsLoading, setTagsLoading] = useState<boolean>(false);
   const [tagsError, setTagsError] = useState<string | null>(null);
-  const prevIsOpen = useRef(isOpen);
-
   useEffect(() => {
     if (isOpen) {
-      const currentInitialId = initialStageId;
-      if (!prevIsOpen.current) {
-        if (currentInitialId) {
-          setSelectedStageId(currentInitialId);
-          setShowForm(true);
-          fetchTags();
-        } else {
-          setSelectedStageId(null);
-          setShowForm(false);
-        }
-      } else {
-        if (selectedStageId !== (currentInitialId ?? null)) {
-          setSelectedStageId(currentInitialId ?? null);
-        }
-        const newShowFormState = !!currentInitialId;
-        if (showForm !== newShowFormState) {
-          setShowForm(newShowFormState);
-        }
-        if (currentInitialId && !tags.length && !tagsLoading && !tagsError) {
-        }
+      // When modal opens, set initial state based on initialStageId prop
+      setSelectedStageId(initialStageId ?? null);
+      setShowForm(!!initialStageId); // Show form immediately if initialStageId is present
+
+      // Fetch tags only if the form is shown initially (i.e., initialStageId is present)
+      // or if it's opened from FAB and tags haven't been fetched yet.
+      // This prevents fetching tags unnecessarily if the user hasn't selected a stage yet.
+      if (!!initialStageId && !tags.length && !tagsLoading && !tagsError) {
+        fetchTags();
       }
     } else {
+      // When modal closes, reset all states
       setSelectedStageId(null);
       setShowForm(false);
       setTags([]);
       setSelectedTagIds(new Set());
       setTagsError(null);
     }
-    prevIsOpen.current = isOpen;
-  }, [isOpen, initialStageId, tags.length, tagsError, tagsLoading, selectedStageId, showForm]);
+  }, [isOpen, initialStageId]); // Dependencies simplified to only isOpen and initialStageId
+
+  // Add a separate useEffect for fetching tags when a stage is selected
+  useEffect(() => {
+    if (showForm && selectedStageId && !tags.length && !tagsLoading && !tagsError) {
+      fetchTags();
+    }
+  }, [showForm, selectedStageId, tags.length, tagsLoading, tagsError]);
 
   const fetchTags = async () => {
     setTagsLoading(true);
