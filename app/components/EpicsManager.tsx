@@ -1,11 +1,12 @@
 // app/components/EpicsManager.tsx
+
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
 import supabase from '../../lib/supabaseClient';
 import { useAuth } from '../contexts/AuthContext';
 import { useFilters } from '../contexts/FilterContext';
-import KanbanCard from './KanbanCard';
+import KanbanTask from './KanbanTask';
 import {
   DndContext,
   DragEndEvent,
@@ -57,7 +58,14 @@ interface DroppableEpicColumnProps {
   cardsInColumn: AssociatedCard[];
   allProjects: Epic[];
   allVersions: VersionForSelect[];
-  onUpdateCard: (cardId: string, updates: { title?: string; description?: string; due_date?: string | null; epic_id?: string | null; version_id?: string | null; is_archived?: boolean; }) => Promise<void>;
+  onUpdateCard: (cardId: string, updates: {
+    title?: string;
+    description?: string | null; // Changed to allow null
+    due_date?: string | null;
+    project_id?: string | null; // Changed from epic_id
+    ver_id?: string | null; // Changed from version_id
+    is_archived?: boolean;
+  }) => Promise<void>;
   onDeleteCard: (cardId: string) => Promise<void>;
   onArchiveCard: (cardId: string) => Promise<void>;
   styles: Record<string, React.CSSProperties>; // Pass styles object
@@ -96,23 +104,23 @@ const DroppableEpicColumn: React.FC<DroppableEpicColumnProps> = ({
       {cardsInColumn.length === 0 && <p style={{ color: 'var(--text-subtle)' }}>No cards here.</p>}
       <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
         {cardsInColumn.map(card => (
-          <KanbanCard
+          <KanbanTask
             key={card.id}
             id={card.id}
             title={card.title}
             description={card.description ?? undefined}
-            column_id={card.column_id}
+            stage_id={card.column_id}
             order={card.order}
             due_date={card.due_date ?? undefined}
-            epic_id={card.epic_id ?? undefined}
-            version_id={card.version_id ?? undefined}
-            is_archived={card.is_archived}
+            project_id={card.epic_id ?? undefined}
+            ver_id={card.version_id ?? undefined}
+            is_archived={card.is_archived ?? false}
             allProjects={allProjects}
-            allVersions={allVersions}
-            onUpdateCard={onUpdateCard}
-            onDeleteCard={onDeleteCard}
-            onArchiveCard={onArchiveCard}
-            boardId={card.board_id} // Ensure boardId is passed
+            allVers={allVersions}
+            onUpdateTask={onUpdateCard}
+            onDeleteTask={onDeleteCard}
+            onArchiveTask={onArchiveCard}
+            workspaceId={card.board_id} // Ensure boardId is passed
           />
         ))}
       </ul>
@@ -333,10 +341,10 @@ const EpicsManager: React.FC = () => {
     cardId: string,
     updates: {
       title?: string;
-      description?: string;
+      description?: string | null; // Changed to allow null
       due_date?: string | null;
-      epic_id?: string | null;
-      version_id?: string | null;
+      project_id?: string | null; // Changed from epic_id
+      ver_id?: string | null; // Changed from version_id
       is_archived?: boolean;
     }
   ) => {
@@ -598,22 +606,22 @@ const EpicsManager: React.FC = () => {
 
                   <DragOverlay dropAnimation={null}>
                     {activeDraggedCardData && (
-                      <KanbanCard
+                      <KanbanTask
                         id={activeDraggedCardData.id}
                         title={activeDraggedCardData.title}
                         description={activeDraggedCardData.description ?? undefined}
-                        column_id={activeDraggedCardData.column_id}
+                        stage_id={activeDraggedCardData.column_id}
                         order={activeDraggedCardData.order}
                         due_date={activeDraggedCardData.due_date ?? undefined}
-                        epic_id={activeDraggedCardData.epic_id ?? undefined}
-                        version_id={activeDraggedCardData.version_id ?? undefined}
-                        is_archived={activeDraggedCardData.is_archived}
+                        project_id={activeDraggedCardData.epic_id ?? undefined}
+                        ver_id={activeDraggedCardData.version_id ?? undefined}
+                        is_archived={activeDraggedCardData.is_archived ?? false}
                         allProjects={epics}
-                        allVersions={allVersions}
-                        onUpdateCard={handleCardUpdate}
-                        onDeleteCard={handleCardDelete}
-                        onArchiveCard={handleCardArchive}
-                        boardId={activeDraggedCardData.board_id}
+                        allVers={allVersions}
+                        onUpdateTask={handleCardUpdate}
+                        onDeleteTask={handleCardDelete}
+                        onArchiveTask={handleCardArchive}
+                        workspaceId={activeDraggedCardData.board_id}
                         isReadOnly
                       />
                     )}
