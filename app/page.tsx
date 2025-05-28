@@ -76,7 +76,6 @@ export default function Home() {
   const boardControlsRef = useRef<HTMLDivElement>(null);
 
   // Get filter states and setters from FilterContext
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {
     allProjectsForFilter,
     allVersForFilter,
@@ -92,6 +91,8 @@ export default function Home() {
     ver: selectedVerFilterId,
     tags: selectedTagIds,
     allProjectsCount: allProjectsForFilter.length,
+    allVersCount: allVersForFilter.length,
+    allTagsCount: allTagsForFilter.length,
     filterDataVer: filterDataVersion,
   });
 
