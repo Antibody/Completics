@@ -5,19 +5,12 @@ import supabase from '../../lib/supabaseClient';
 import { useAuth } from '../contexts/AuthContext';
 import KanbanTask from '../components/KanbanTask';
 import { StageData, TaskData, ProjectForSelect, VerForSelect } from '../components/KanbanBoard';
-import { TagBadgeProps } from '../components/TagBadge'; // Import TagBadgeProps
-
 // ArchivedTaskData should align with TaskData for consistency
-interface ArchivedTaskData extends TaskData {
-  // Add any additional properties specific to archived tasks if needed,
-  // but for now, it primarily extends TaskData.
-  // The allProjects and allVers are fetched separately and passed as props to KanbanTask,
-  // so they don't need to be part of the core ArchivedTaskData interface.
-}
+// The interface ArchivedTaskData was removed as it was redundant (extended TaskData without adding new members).
 
 const ArchivePage: React.FC = () => {
   const { session, user } = useAuth();
-  const [archivedTasks, setArchivedTasks] = useState<ArchivedTaskData[]>([]);
+  const [archivedTasks, setArchivedTasks] = useState<TaskData[]>([]);
   const [allStages, setAllStages] = useState<StageData[]>([]);
   const [allProjects, setAllProjects] = useState<ProjectForSelect[]>([]);
   const [allVers, setAllVers] = useState<VerForSelect[]>([]);
@@ -133,7 +126,7 @@ const ArchivePage: React.FC = () => {
     }
   };
   
-  const handleUpdateTask = async (taskId: string, updates: Partial<ArchivedTaskData>) => {
+  const handleUpdateTask = async (taskId: string, updates: Partial<TaskData>) => {
     console.log(`Update task ${taskId} from archive:`, updates);
     // This function is currently a placeholder. If actual updates are needed from the archive page,
     // it should call supabase.from('tasks').update(updates).eq('id', taskId) and then fetchData().
