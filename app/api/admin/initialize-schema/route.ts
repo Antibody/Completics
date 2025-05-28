@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
   const client = await pool.connect();
 
   // Advisory lock key (64-bit integer)
-  const ADVISORY_LOCK_KEY = '1673536767096532345678939857045442143457656';
+  const ADVISORY_LOCK_KEY = '1234567890123456789';
 
   try {
     await client.query("BEGIN");
