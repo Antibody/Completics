@@ -6,9 +6,9 @@ import { cookies } from 'next/headers';
 
 export async function POST(
   request: NextRequest,
-  context: any
+  { params }: { params: { taskId: string } }
 ) {
-  const { taskId } = context.params as { taskId: string };
+  const { taskId } = params;
   const { tag_id } = await request.json();
 
   if (!taskId || !tag_id) {
