@@ -28,10 +28,7 @@ interface Project extends ProjectForSelect {
 }
 
 // AssociatedTask should extend TaskData for consistency
-interface AssociatedTask extends TaskData {
-  // Add any additional properties specific to associated tasks if needed
-  // For now, it primarily extends TaskData.
-}
+// The interface AssociatedTask was removed as it was redundant (extended TaskData without adding new members).
 
 interface SupabaseTaskWithTags {
   id: string;
@@ -89,10 +86,10 @@ const ProjectsManager: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
-  const [associatedTasks, setAssociatedTasks] = useState<AssociatedTask[]>([]);
+  const [associatedTasks, setAssociatedTasks] = useState<TaskData[]>([]);
   const [loadingTasks, setLoadingTasks] = useState<boolean>(false);
 
-  const [activeDraggedTaskData, setActiveDraggedTaskData] = useState<AssociatedTask | null>(null);
+  const [activeDraggedTaskData, setActiveDraggedTaskData] = useState<TaskData | null>(null);
 
   const [newProjectName, setNewProjectName] = useState<string>('');
   const [newProjectDescription, setNewProjectDescription] = useState<string>('');
@@ -170,7 +167,7 @@ const ProjectsManager: React.FC = () => {
         .order('order', { ascending: true });
       if (tasksError) throw tasksError;
 
-      const processedTasks: AssociatedTask[] = (tasksData || []).map((t: SupabaseTaskWithTags) => {
+      const processedTasks: TaskData[] = (tasksData || []).map((t: SupabaseTaskWithTags) => {
         const tgs: TagBadgeProps[] =
           t.task_tags
             ?.map((tt) => tt.tags)
@@ -366,7 +363,7 @@ const ProjectsManager: React.FC = () => {
 
   const handleTaskUpdatePlaceholder = async (
     taskId: string,
-    updates: Partial<AssociatedTask> // Use Partial<AssociatedTask>
+    updates: Partial<TaskData> // Use Partial<TaskData>
   ) => {
     setError(null);
     try {
@@ -534,7 +531,7 @@ const ProjectsManager: React.FC = () => {
                 {!loadingStages && !loadingVers && allStages.length > 0 ? (
                   <div style={styles.dndContextContainer}>
                     {allStages.map(stage => {
-                      const StageTasks = ({ tasksInStage }: { tasksInStage: AssociatedTask[] }) => (
+                      const StageTasks = ({ tasksInStage }: { tasksInStage: TaskData[] }) => (
                         <ul style={{ listStyle: 'none', padding: 0, minHeight: '50px' }}>
                           {tasksInStage.map(task => (
                             <KanbanTask
