@@ -48,13 +48,11 @@ const CentralizedAddModal: React.FC<CentralizedAddModalProps> = ({
   const [tagsError, setTagsError] = useState<string | null>(null);
   useEffect(() => {
     if (isOpen) {
-      // When modal opens, set initial state based on initialStageId prop
+     
       setSelectedStageId(initialStageId ?? null);
-      setShowForm(!!initialStageId); // Show form immediately if initialStageId is present
+      setShowForm(!!initialStageId); 
 
-      // Fetch tags only if the form is shown initially (i.e., initialStageId is present)
-      // or if it's opened from FAB and tags haven't been fetched yet.
-      // This prevents fetching tags unnecessarily if the user hasn't selected a stage yet.
+      
       if (!!initialStageId && !tags.length && !tagsLoading && !tagsError) {
         fetchTags();
       }
@@ -66,7 +64,7 @@ const CentralizedAddModal: React.FC<CentralizedAddModalProps> = ({
       setSelectedTagIds(new Set());
       setTagsError(null);
     }
-  }, [isOpen, initialStageId]); // Dependencies simplified to only isOpen and initialStageId
+  }, [isOpen, initialStageId]); 
 
   // Add a separate useEffect for fetching tags when a stage is selected
   useEffect(() => {
