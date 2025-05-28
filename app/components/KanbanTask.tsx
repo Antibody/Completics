@@ -35,7 +35,7 @@ const BinIcon: React.FC = () => (
   </svg>
 );
 
-import { TaskData } from './KanbanBoard'; // Import TaskData
+import { TaskData, StageData } from './KanbanBoard'; // Import TaskData, StageData
 
 interface KanbanTaskProps {
   id: string;
@@ -57,7 +57,7 @@ interface KanbanTaskProps {
   ) => Promise<void>;
   onDeleteTask: (id: string) => Promise<void>;
   isMobile?: boolean;
-  allStages?: { id: string; title: string }[];
+  allStages?: StageData[];
   onMoveTask?: (taskId: string, targetStageId: string) => void;
   highlightColor?: string;
   doneStageId?: string | undefined;
