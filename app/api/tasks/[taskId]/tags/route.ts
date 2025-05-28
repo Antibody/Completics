@@ -1,18 +1,14 @@
+// app/api/tasks/[taskId]/tags/route.ts
+
 import { NextResponse, type NextRequest } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 
-interface RouteContext {
-  params: {
-    taskId: string;
-  };
-}
-
 export async function POST(
   request: NextRequest,
-  context: RouteContext
+  context: any
 ) {
-  const { taskId } = context.params;
+  const { taskId } = context.params as { taskId: string };
   const { tag_id } = await request.json();
 
   if (!taskId || !tag_id) {
