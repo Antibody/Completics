@@ -2,11 +2,17 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 
+interface RouteContext {
+  params: {
+    taskId: string;
+  };
+}
+
 export async function POST(
   request: NextRequest,
-  { params }: { params: { taskId: string } }
+  context: RouteContext
 ) {
-  const { taskId } = params;
+  const { taskId } = context.params;
   const { tag_id } = await request.json();
 
   if (!taskId || !tag_id) {
