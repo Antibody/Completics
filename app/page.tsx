@@ -76,6 +76,7 @@ export default function Home() {
   const boardControlsRef = useRef<HTMLDivElement>(null);
 
   // Get filter states and setters from FilterContext
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {
     allProjectsForFilter,
     allVersForFilter,
