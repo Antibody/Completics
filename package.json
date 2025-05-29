@@ -1,5 +1,5 @@
 {
-  "name": "kanban",
+  "name": "Completics",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,6 +8,19 @@
     "start": "next start",
     "lint": "next lint"
   },
+
+    "author": "Maxim Bespalov (https://github.com/Antibody/Completics)", 
+    "license": "MIT", 
+    "keywords": ["Kanban", "Project Management", "Visual cards", "Multi-User Kanban",  "Productivity App", "Multi User Kanban", "Public Boards", "Editable Boards", "Kanban Boards",
+    "Task Tracking",
+    "Agile Workflow",
+    "Board Sharing",
+    "Custom Workflows",
+    "Integrations",
+    "Cross Platform",
+               ],
+    "description": "Completics is light-weighted Next.js- and Supabase-based multi-user Kanban app for collaboration",
+  
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/sortable": "^10.0.0",
