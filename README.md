@@ -217,7 +217,7 @@ Then in menu `URL Configuration` select the URL to send users back after signup 
 
 This project uses the following key dependencies:
 
-*   `next`: 14.1.0 - The React framework for building the application.
+*   `next`: 15.3.2 - The React framework for building the application.
 *   `react`, `react-dom`: 18.2.0 - React libraries for building the UI.
 *   `@supabase/supabase-js`: 2.39.7 - Supabase client library for database interaction and authentication.
 *   `@supabase/ssr`: 0.5.0 - Supabase client libraries for database interaction and authentication, specifically for server-side and client-side auth in Next.js App Router.
